@@ -34,45 +34,22 @@ export class BudgetController {
   };
 
   static getById = async (req: Request, res: Response) => {
-    try {
-      const { budget } = req;
+    const { budget } = req;
 
-      res.status(200).json(budget);
-    } catch (error) {
-      res
-        .status(500)
-        .json({ error: "Ocurrió un error al obtener el presupuesto" });
-    }
+    res.status(200).json(budget);
   };
 
   static updateById = async (req: Request, res: Response) => {
-    try {
-      const { budget } = req;
+    const { budget } = req;
+    await budget!.update(req.body);
 
-      await budget!.update(req.body);
-
-      res
-        .status(200)
-        .json({ message: "Presupuesto actualizado correctamente" });
-    } catch (error) {
-      console.log(error);
-      res
-        .status(500)
-        .json({ error: "Ocurrió un error al actualizar el presupuesto" });
-    }
+    res.status(200).json({ message: "Presupuesto actualizado correctamente" });
   };
 
   static deleteById = async (req: Request, res: Response) => {
-    try {
-      const { budget } = req;
+    const { budget } = req;
+    await budget!.destroy();
 
-      await budget!.destroy();
-
-      res.status(200).json({ message: "Presupuesto eliminado correctamente" });
-    } catch (error) {
-      res
-        .status(500)
-        .json({ error: "Ocurrió un error al obtener el presupuesto" });
-    }
+    res.status(200).json({ message: "Presupuesto eliminado correctamente" });
   };
 }
