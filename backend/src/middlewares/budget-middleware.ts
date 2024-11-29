@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import Budget from "../models/Budget";
-import { param, validationResult } from "express-validator";
+import { body, param, validationResult } from "express-validator";
 
 export const handleBudgetExists = async (
   req: Request,
@@ -46,6 +46,24 @@ export const handleValidateBudgetId = async (
     res.status(400).json({ errors: errors.array() });
     return;
   }
+
+  next();
+};
+
+export const handleValidateBudgetInput = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  await body("name").notEmpty().withMessage("El nombre es requerido").run(req),
+    await body("amount")
+      .notEmpty()
+      .withMessage("El monto del presupuesto es requerido")
+      .isNumeric()
+      .withMessage("Cantidad no válida")
+      .custom((amount: number) => amount >= 0)
+      .withMessage("La cantidad debe ser mayor a 0")
+      .run(req);
 
   next();
 };
