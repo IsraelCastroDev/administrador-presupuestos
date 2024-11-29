@@ -4,6 +4,7 @@ import { body, param } from "express-validator";
 import { handleInputErrors } from "../middlewares/validation";
 import {
   handleBudgetExists,
+  handleValidateBudgetInput,
   handleValidateBudgetId,
 } from "../middlewares/budget-middleware";
 
@@ -16,14 +17,7 @@ router.param("budgetId", handleBudgetExists);
 router.get("/", BudgetController.getAll);
 router.post(
   "/",
-  body("name").notEmpty().withMessage("El nombre es requerido"),
-  body("amount")
-    .notEmpty()
-    .withMessage("El monto del presupuesto es requerido")
-    .isNumeric()
-    .withMessage("Cantidad no válida")
-    .custom((amount: number) => amount >= 0)
-    .withMessage("La cantidad debe ser mayor a 0"),
+  handleValidateBudgetInput,
   handleInputErrors,
   BudgetController.create
 );
@@ -32,14 +26,7 @@ router.get("/:budgetId", BudgetController.getById);
 
 router.put(
   "/:budgetId",
-  body("name").notEmpty().withMessage("El nombre es requerido"),
-  body("amount")
-    .notEmpty()
-    .withMessage("El monto del presupuesto es requerido")
-    .isNumeric()
-    .withMessage("Cantidad no válida")
-    .custom((amount: number) => amount >= 0)
-    .withMessage("La cantidad debe ser mayor a 0"),
+  handleValidateBudgetId,
   handleInputErrors,
   BudgetController.updateById
 );
