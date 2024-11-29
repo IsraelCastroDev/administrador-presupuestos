@@ -42,7 +42,9 @@ export const handleValidateUserExists = async (
     const user = await User.findOne(email);
 
     if (user) {
-      res.status(404).json({ error: "El usuario ya existe, inicia sesión" });
+      res
+        .status(404)
+        .json({ error: "El email ya está registrado, inicia sesión" });
       return;
     }
 
