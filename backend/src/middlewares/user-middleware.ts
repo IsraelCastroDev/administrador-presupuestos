@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { body } from "express-validator";
+import User from "../models/User";
 
 export const handleValidateUserInput = async (
   req: Request,
@@ -28,4 +29,26 @@ export const handleValidateUserInput = async (
     .run(req);
 
   next();
+};
+
+export const handleValidateUserExists = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne(email);
+
+    if (user) {
+      res.status(404).json({ error: "El usuario ya existe, inicia sesión" });
+      return;
+    }
+
+    next();
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Error al crear la cuenta" });
+  }
 };
