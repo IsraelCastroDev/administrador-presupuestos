@@ -1,14 +1,17 @@
 import { Request, Response } from "express";
 import User from "../models/User";
+import { hashPassword } from "../utils";
 
 class AuthController {
   static getAll = async (req: Request, res: Response) => {};
 
   static create = async (req: Request, res: Response) => {
     try {
-      const user = new User(req.body);
+      const { name, email, password } = req.body;
 
-      await user.save();
+      const hashedPassword = await hashPassword(password);
+
+      await User.create({ name, email, password: hashedPassword });
 
       res.status(200).json({
         message: "Cuenta creada, te enviamos un email de confirmación",
