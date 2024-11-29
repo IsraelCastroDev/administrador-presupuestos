@@ -27,7 +27,6 @@ router.post(
 router.get(
   "/:id",
   handleValidateBudgetId,
-  handleInputErrors,
   handleBudgetExists,
   BudgetController.getById
 );
@@ -35,6 +34,7 @@ router.get(
 router.put(
   "/:id",
   handleValidateBudgetId,
+  handleBudgetExists,
   body("name").notEmpty().withMessage("El nombre es requerido"),
   body("amount")
     .notEmpty()
@@ -44,14 +44,12 @@ router.put(
     .custom((amount: number) => amount >= 0)
     .withMessage("La cantidad debe ser mayor a 0"),
   handleInputErrors,
-  handleBudgetExists,
   BudgetController.updateById
 );
 
 router.delete(
   "/:id",
   handleValidateBudgetId,
-  handleInputErrors,
   handleBudgetExists,
   BudgetController.deleteById
 );
