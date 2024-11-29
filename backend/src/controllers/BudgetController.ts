@@ -55,7 +55,6 @@ export class BudgetController {
   static updateById = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const { name, amount } = req.body;
 
       const budget = await Budget.findByPk(id);
 
@@ -64,9 +63,7 @@ export class BudgetController {
         return;
       }
 
-      budget.name = name;
-      budget.amount = amount;
-      await budget.save();
+      await budget.update(req.body);
 
       res
         .status(200)
