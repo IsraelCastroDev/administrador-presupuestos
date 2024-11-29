@@ -46,7 +46,7 @@ router.delete(
   "/:id",
   param("id").isInt().withMessage("Id no válido"),
   handleInputErrors,
-  BudgetController.delete
+  BudgetController.deleteById
 );
 
 export default router;

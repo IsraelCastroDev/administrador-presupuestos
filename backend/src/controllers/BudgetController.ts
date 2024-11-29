@@ -76,7 +76,7 @@ export class BudgetController {
     }
   };
 
-  static delete = async (req: Request, res: Response) => {
+  static deleteById = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
 
