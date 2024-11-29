@@ -2,6 +2,7 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
+    "typeRoots": ["./src/types/", "./node_modules/@types/*"],
     "lib": ["esnext"],
     "target": "ESNext",
     "moduleResolution": "NodeNext",
@@ -13,5 +14,5 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "src/types/express/*.d.ts"]
 }
