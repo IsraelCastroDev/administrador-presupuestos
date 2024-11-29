@@ -9,6 +9,10 @@ import {
 
 const router = Router();
 
+// llamar al middleware automáticamente cuando se valida el parámetro 'budgetId'
+router.param("budgetId", handleValidateBudgetId);
+router.param("budgetId", handleBudgetExists);
+
 router.get("/", BudgetController.getAll);
 router.post(
   "/",
@@ -24,17 +28,10 @@ router.post(
   BudgetController.create
 );
 
-router.get(
-  "/:id",
-  handleValidateBudgetId,
-  handleBudgetExists,
-  BudgetController.getById
-);
+router.get("/:budgetId", BudgetController.getById);
 
 router.put(
-  "/:id",
-  handleValidateBudgetId,
-  handleBudgetExists,
+  "/:budgetId",
   body("name").notEmpty().withMessage("El nombre es requerido"),
   body("amount")
     .notEmpty()
@@ -47,11 +44,6 @@ router.put(
   BudgetController.updateById
 );
 
-router.delete(
-  "/:id",
-  handleValidateBudgetId,
-  handleBudgetExists,
-  BudgetController.deleteById
-);
+router.delete("/:budgetId", BudgetController.deleteById);
 
 export default router;
