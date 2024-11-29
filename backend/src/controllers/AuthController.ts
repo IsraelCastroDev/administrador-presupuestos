@@ -3,7 +3,16 @@ import User from "../models/User";
 import { hashPassword } from "../utils";
 
 class AuthController {
-  static getAll = async (req: Request, res: Response) => {};
+  static getAll = async (req: Request, res: Response) => {
+    try {
+      const users = await User.findAll();
+
+      res.status(200).json(users);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Ocurrió un error al crear la cuenta" });
+    }
+  };
 
   static create = async (req: Request, res: Response) => {
     try {
