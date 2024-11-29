@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { body, param, validationResult } from "express-validator";
-import { Expense } from "../models";
+import Expense from "../models/Expense";
 
 export const handleValidateExpenseId = async (
   req: Request,
