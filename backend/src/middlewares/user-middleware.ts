@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { body } from "express-validator";
+import { body, param, validationResult } from "express-validator";
 import User from "../models/User";
 
 export const handleValidateUserInput = async (
@@ -31,7 +31,7 @@ export const handleValidateUserInput = async (
   next();
 };
 
-export const handleValidateUserExists = async (
+export const handleValidateAccountExists = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -53,4 +53,43 @@ export const handleValidateUserExists = async (
     console.log(error);
     res.status(500).json({ error: "Error al crear la cuenta" });
   }
+};
+
+export const handleValidateUserId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  await param("userId")
+    .isInt()
+    .withMessage("id no válido")
+    .custom((userId: number) => userId > 0)
+    .withMessage("id no válido")
+    .run(req);
+
+  let errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() });
+    return;
+  }
+
+  next();
+};
+
+export const handleValidateUserExists = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { userId } = req.params;
+
+  const user = await User.findByPk(userId);
+
+  if (!user) {
+    res.status(404).json({ error: "El usuario no existe" });
+    return;
+  }
+
+  next();
 };
