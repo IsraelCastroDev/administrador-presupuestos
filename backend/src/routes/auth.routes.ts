@@ -16,4 +16,6 @@ authRoutes.post(
   AuthController.create
 );
 
+authRoutes.get("/users", AuthController.getAll);
+
 export { authRoutes };
