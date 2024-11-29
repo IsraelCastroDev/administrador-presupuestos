@@ -6,7 +6,7 @@ import {
   ForeignKey,
   BelongsTo,
 } from "sequelize-typescript";
-import { Budget } from "./Budget";
+import Budget from "./Budget";
 
 @Table({
   tableName: "expenses",
@@ -31,4 +31,4 @@ class Expense extends Model {
   declare budget: Budget;
 }
 
-export { Expense };
+export default Expense;
