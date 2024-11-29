@@ -14,7 +14,7 @@ export class BudgetController {
       console.log(error);
       res
         .status(500)
-        .json({ error: "Ocurrió un error al obtener el presupuesto" });
+        .json({ error: "Ocurrió un error al obtener los presupuestos" });
     }
   };
 
@@ -29,12 +29,22 @@ export class BudgetController {
       console.log(error);
       res
         .status(500)
-        .json({ error: "Ocurrió un error al obtener el presupuesto" });
+        .json({ error: "Ocurrió un error al crear el presupuesto" });
     }
   };
 
   static getById = async (req: Request, res: Response) => {
     try {
+      const { id } = req.params;
+
+      const budget = await Budget.findByPk(id);
+
+      if (!budget) {
+        res.status(404).json({ error: "Presupuesto no encontrado" });
+        return;
+      }
+
+      res.status(200).json(budget);
     } catch (error) {
       res
         .status(500)
@@ -44,15 +54,45 @@ export class BudgetController {
 
   static editById = async (req: Request, res: Response) => {
     try {
+      const { id } = req.params;
+      const { name, amount } = req.body;
+
+      const budget = await Budget.findByPk(id);
+
+      if (!budget) {
+        res.status(404).json({ error: "Presupuesto no encontrado" });
+        return;
+      }
+
+      budget.name = name;
+      budget.amount = amount;
+      await budget.save();
+
+      res
+        .status(200)
+        .json({ message: "Presupuesto actualizado correctamente" });
     } catch (error) {
+      console.log(error);
       res
         .status(500)
-        .json({ error: "Ocurrió un error al obtener el presupuesto" });
+        .json({ error: "Ocurrió un error al actualizar el presupuesto" });
     }
   };
 
   static delete = async (req: Request, res: Response) => {
     try {
+      const { id } = req.params;
+
+      const budget = await Budget.findByPk(id);
+
+      if (!budget) {
+        res.status(404).json({ error: "Presupuesto no encontrado" });
+        return;
+      }
+
+      await budget.destroy();
+
+      res.status(200).json({ message: "Presupuesto eliminado correctamente" });
     } catch (error) {
       res
         .status(500)
