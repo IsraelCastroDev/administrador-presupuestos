@@ -1,5 +1,5 @@
 import { Table, Column, DataType, Model, HasMany } from "sequelize-typescript";
-import Expense from "./Expense";
+import { Expense } from "./Expense";
 
 // generar la tabla
 @Table({
@@ -25,4 +25,4 @@ class Budget extends Model {
   declare expenses: Expense[];
 }
 
-export default Budget;
+export { Budget };

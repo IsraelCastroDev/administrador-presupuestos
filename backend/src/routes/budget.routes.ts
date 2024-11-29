@@ -1,12 +1,11 @@
 import { Router } from "express";
-import { BudgetController } from "../controllers/BudgetController";
+import { BudgetController, ExpenseController } from "../controllers";
 import { handleInputErrors } from "../middlewares/validation";
 import {
   handleBudgetExists,
   handleValidateBudgetInput,
   handleValidateBudgetId,
 } from "../middlewares/budget-middleware";
-import { ExpenseController } from "../controllers/ExpenseController";
 import {
   handleValidateExpenseExists,
   handleValidateExpenseId,
