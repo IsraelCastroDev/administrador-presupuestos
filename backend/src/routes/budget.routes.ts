@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { BudgetController } from "../controllers/BudgetController";
-import { body, param } from "express-validator";
 import { handleInputErrors } from "../middlewares/validation";
 import {
   handleBudgetExists,
@@ -8,6 +7,11 @@ import {
   handleValidateBudgetId,
 } from "../middlewares/budget-middleware";
 import { ExpenseController } from "../controllers/ExpenseController";
+import {
+  handleValidateExpenseExists,
+  handleValidateExpenseId,
+  handleValidateExpenseInput,
+} from "../middlewares/expense-middleware";
 
 const router = Router();
 
@@ -15,6 +19,11 @@ const router = Router();
 router.param("budgetId", handleValidateBudgetId);
 router.param("budgetId", handleBudgetExists);
 
+// llamar al middleware automáticamente cuando se valida el parámetro 'expenseId'
+router.param("expenseId", handleValidateExpenseId);
+router.param("expenseId", handleValidateExpenseExists);
+
+/*------------------ Endpoints para presupuestos ---------------------------*/
 router.get("/", BudgetController.getAll);
 router.post(
   "/",
@@ -34,11 +43,25 @@ router.put(
 
 router.delete("/:budgetId", BudgetController.deleteById);
 
-/* Endpoints para gastos */
+/*------------------ Endpoints para gastos ---------------------------*/
 router.get("/:budgetId/expenses", ExpenseController.getAll);
-router.post("/:budgetId/expenses", ExpenseController.create);
+
+router.post(
+  "/:budgetId/expenses",
+  handleValidateExpenseInput,
+  handleInputErrors,
+  ExpenseController.create
+);
+
 router.get("/:budgetId/expenses/:expenseId", ExpenseController.getById);
-router.put("/:budgetId/expenses/:expenseId", ExpenseController.updateById);
+
+router.put(
+  "/:budgetId/expenses/:expenseId",
+  handleValidateExpenseInput,
+  handleInputErrors,
+  ExpenseController.updateById
+);
+
 router.delete("/:budgetId/expenses/:expenseId", ExpenseController.deleteById);
 
 export default router;
