@@ -52,7 +52,7 @@ export class BudgetController {
     }
   };
 
-  static editById = async (req: Request, res: Response) => {
+  static updateById = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
       const { name, amount } = req.body;

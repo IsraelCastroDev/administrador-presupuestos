@@ -39,7 +39,7 @@ router.put(
     .custom((amount: number) => amount >= 0)
     .withMessage("La cantidad debe ser mayor a 0"),
   handleInputErrors,
-  BudgetController.editById
+  BudgetController.updateById
 );
 
 router.delete(
