@@ -7,6 +7,7 @@ import {
   handleValidateBudgetInput,
   handleValidateBudgetId,
 } from "../middlewares/budget-middleware";
+import { ExpenseController } from "../controllers/ExpenseController";
 
 const router = Router();
 
@@ -32,5 +33,12 @@ router.put(
 );
 
 router.delete("/:budgetId", BudgetController.deleteById);
+
+/* Endpoints para gastos */
+router.get("/:budgetId/expenses", ExpenseController.getAll);
+router.post("/:budgetId/expenses", ExpenseController.create);
+router.get("/:budgetId/expenses/:expenseId", ExpenseController.getById);
+router.put("/:budgetId/expenses/:expenseId", ExpenseController.updateById);
+router.delete("/:budgetId/expenses/:expenseId", ExpenseController.deleteById);
 
 export default router;
