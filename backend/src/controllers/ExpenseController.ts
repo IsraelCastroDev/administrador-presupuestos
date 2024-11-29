@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Expense } from "../models";
+import Expense from "../models/Expense";
 
 export class ExpenseController {
   static create = async (req: Request, res: Response) => {
