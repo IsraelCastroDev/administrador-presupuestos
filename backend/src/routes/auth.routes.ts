@@ -7,6 +7,7 @@ import {
   handleValidateUserInput,
 } from "../middlewares/user-middleware";
 import { handleInputErrors } from "../middlewares/validation";
+import { body } from "express-validator";
 
 const authRoutes = Router();
 
@@ -18,6 +19,17 @@ authRoutes.post(
   handleInputErrors,
   handleValidateAccountExists,
   AuthController.create
+);
+
+authRoutes.post(
+  "/confirm-account",
+  body("token")
+    .notEmpty()
+    .withMessage("Token no válido")
+    .isLength({ min: 6, max: 6 })
+    .withMessage("Token no válido"),
+  handleInputErrors,
+  AuthController.confirmAccount
 );
 
 authRoutes.get("/users", AuthController.getAll);
