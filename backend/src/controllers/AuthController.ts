@@ -95,6 +95,9 @@ class AuthController {
 
       const token = generateToken();
 
+      user.token = token;
+      await user.save();
+
       await AuthEmail.sendRestartPasswordToken({
         name: user.name,
         email: user.email,
@@ -104,6 +107,49 @@ class AuthController {
       res
         .status(200)
         .json({ message: "Te enviamos el token, revisa tu correo" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Ocurrió un error al crear la cuenta" });
+    }
+  };
+
+  static validateResetPasswordToken = async (req: Request, res: Response) => {
+    try {
+      const { token } = req.body;
+
+      const user = await User.findOne({ where: { token } });
+
+      if (!user) {
+        res.status(404).json({ error: "Token no válido" });
+        return;
+      }
+
+      res.status(200).json({ message: "Token válido" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Ocurrió un error al crear la cuenta" });
+    }
+  };
+
+  static resetPassword = async (req: Request, res: Response) => {
+    try {
+      const { token } = req.params;
+      const { password } = req.body;
+
+      const user = await User.findOne({ where: { token } });
+
+      if (!user) {
+        res.status(404).json({ error: "Token no válido" });
+        return;
+      }
+
+      const hashedPassword = await hashPassword(password);
+
+      user.password = hashedPassword;
+      user.token = "";
+      await user.save();
+
+      res.status(200).json({ message: "Contraseña actualizada" });
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Ocurrió un error al crear la cuenta" });
