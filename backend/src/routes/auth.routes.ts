@@ -8,6 +8,7 @@ import {
 } from "../middlewares/user-middleware";
 import { handleInputErrors } from "../middlewares/validation";
 import { body } from "express-validator";
+import { limiter } from "../config/limiter";
 
 const authRoutes = Router();
 
@@ -23,6 +24,7 @@ authRoutes.post(
 
 authRoutes.post(
   "/confirm-account",
+  limiter,
   body("token")
     .notEmpty()
     .withMessage("Token no válido")
