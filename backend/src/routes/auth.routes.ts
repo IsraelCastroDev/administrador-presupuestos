@@ -2,6 +2,7 @@ import { Router } from "express";
 import { AuthController } from "../controllers";
 import {
   handleValidateUserAccountExists,
+  handleValidateUserExists,
   handleValidateUserId,
   handleValidateUserInput,
 } from "../middlewares/user-middleware";
@@ -44,6 +45,19 @@ authRoutes.post(
     .withMessage("Email inválido"),
   body("password").notEmpty().withMessage("Contraseña es obligatoria"),
   AuthController.login
+);
+
+// recuperar contraseña
+authRoutes.post(
+  "/send-token-to-reset-password",
+  body("email")
+    .notEmpty()
+    .withMessage("Email es obligatorio")
+    .isEmail()
+    .withMessage("Email inválido"),
+  handleInputErrors,
+  handleValidateUserExists,
+  AuthController.sendTokenToResetPassword
 );
 
 authRoutes.get("/users", AuthController.getAll);
