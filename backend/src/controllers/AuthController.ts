@@ -36,6 +36,27 @@ class AuthController {
     }
   };
 
+  static confirmAccount = async (req: Request, res: Response) => {
+    try {
+      const { token } = req.body;
+
+      const user = await User.findOne({ where: { token } });
+
+      if (!user) {
+        res.status(401).json({ error: "Token expirado o no existe" });
+        return;
+      }
+
+      user.confirmed = true;
+      await user.save();
+
+      res.status(200).json({ message: "Cuenta confirmada con éxito" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Ocurrió un error al crear la cuenta" });
+    }
+  };
+
   static getById = (req: Request, res: Response) => {};
 
   static updateById = (req: Request, res: Response) => {};
