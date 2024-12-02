@@ -31,7 +31,7 @@ export const handleValidateUserInput = async (
   next();
 };
 
-export const handleValidateAccountExists = async (
+export const handleValidateUserAccountExists = async (
   req: Request,
   res: Response,
   next: NextFunction
