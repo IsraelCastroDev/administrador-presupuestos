@@ -95,6 +95,27 @@ class AuthController {
     }
   };
 
+  static sendTokenToResetPassword = async (req: Request, res: Response) => {
+    try {
+      const user = req.user!;
+
+      const token = generateToken();
+
+      await AuthEmail.sendRestartPasswordToken({
+        name: user.name,
+        email: user.email,
+        token,
+      });
+
+      res
+        .status(200)
+        .json({ message: "Te enviamos el token, revisa tu correo" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Ocurrió un error al crear la cuenta" });
+    }
+  };
+
   static getById = (req: Request, res: Response) => {};
 
   static updateById = (req: Request, res: Response) => {};
