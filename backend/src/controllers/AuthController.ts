@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import User from "../models/User";
 import { hashPassword } from "../utils";
+import { generateToken } from "../utils/token";
+import { AuthEmail } from "../service/AuthEmail";
 
 class AuthController {
   static getAll = async (req: Request, res: Response) => {
@@ -19,8 +21,11 @@ class AuthController {
       const { name, email, password } = req.body;
 
       const hashedPassword = await hashPassword(password);
+      const token = generateToken();
 
-      await User.create({ name, email, password: hashedPassword });
+      await User.create({ name, email, password: hashedPassword, token });
+
+      await AuthEmail.sendConfirmation({ email, name, token });
 
       res.status(200).json({
         message: "Cuenta creada, te enviamos un email de confirmación",
