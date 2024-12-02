@@ -11,6 +11,9 @@ import { limiter } from "../config/limiter";
 
 const authRoutes = Router();
 
+// agregando el limitador de request a todos los endpoints de auth
+authRoutes.use(limiter);
+
 authRoutes.param("userId", handleValidateUserId);
 
 authRoutes.post(
