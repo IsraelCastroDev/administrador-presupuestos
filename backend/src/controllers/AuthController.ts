@@ -62,14 +62,8 @@ class AuthController {
 
   static login = async (req: Request, res: Response) => {
     try {
-      const { email, password } = req.body;
-
-      const user = await User.findOne({ where: { email } });
-
-      if (!user) {
-        res.status(404).json({ error: "El usuario no existe" });
-        return;
-      }
+      const user = req.user!;
+      const { password } = req.body;
 
       // comprobar si ha confirmado su cuenta
       if (!user.confirmed) {
