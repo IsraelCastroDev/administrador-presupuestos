@@ -43,11 +43,12 @@ class AuthController {
       const user = await User.findOne({ where: { token } });
 
       if (!user) {
-        res.status(401).json({ error: "Token expirado o no existe" });
+        res.status(401).json({ error: "Token expirado o no válido" });
         return;
       }
 
       user.confirmed = true;
+      user.token = "";
       await user.save();
 
       res.status(200).json({ message: "Cuenta confirmada con éxito" });
