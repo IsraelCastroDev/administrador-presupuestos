@@ -44,6 +44,8 @@ authRoutes.post(
     .isEmail()
     .withMessage("Email inválido"),
   body("password").notEmpty().withMessage("Contraseña es obligatoria"),
+  handleInputErrors,
+  handleValidateUserExists,
   AuthController.login
 );
 
