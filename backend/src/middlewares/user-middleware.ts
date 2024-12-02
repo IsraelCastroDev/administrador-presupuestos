@@ -82,14 +82,16 @@ export const handleValidateUserExists = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { userId } = req.params;
+  const { email } = req.body;
 
-  const user = await User.findByPk(userId);
+  const user = await User.findOne({ where: { email } });
 
   if (!user) {
     res.status(404).json({ error: "El usuario no existe" });
     return;
   }
+
+  req.user = user;
 
   next();
 };
