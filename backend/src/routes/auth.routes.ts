@@ -1,8 +1,7 @@
 import { Router } from "express";
 import { AuthController } from "../controllers";
 import {
-  handleValidateAccountExists,
-  handleValidateUserExists,
+  handleValidateUserAccountExists,
   handleValidateUserId,
   handleValidateUserInput,
 } from "../middlewares/user-middleware";
@@ -18,13 +17,12 @@ authRoutes.post(
   "/create-account",
   handleValidateUserInput,
   handleInputErrors,
-  handleValidateAccountExists,
+  handleValidateUserAccountExists,
   AuthController.create
 );
 
 authRoutes.post(
   "/confirm-account",
-  limiter,
   body("token")
     .notEmpty()
     .withMessage("Token no válido")
@@ -32,6 +30,17 @@ authRoutes.post(
     .withMessage("Token no válido"),
   handleInputErrors,
   AuthController.confirmAccount
+);
+
+authRoutes.post(
+  "/login",
+  body("email")
+    .notEmpty()
+    .withMessage("Email es obligatorio")
+    .isEmail()
+    .withMessage("Email inválido"),
+  body("password").notEmpty().withMessage("Contraseña es obligatoria"),
+  AuthController.login
 );
 
 authRoutes.get("/users", AuthController.getAll);
