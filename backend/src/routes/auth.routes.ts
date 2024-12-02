@@ -7,7 +7,7 @@ import {
   handleValidateUserInput,
 } from "../middlewares/user-middleware";
 import { handleInputErrors } from "../middlewares/validation";
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 import { limiter } from "../config/limiter";
 
 const authRoutes = Router();
@@ -49,7 +49,7 @@ authRoutes.post(
   AuthController.login
 );
 
-// recuperar contraseña
+/*---------- recuperar contraseña ---------------*/
 authRoutes.post(
   "/send-token-to-reset-password",
   body("email")
@@ -60,6 +60,33 @@ authRoutes.post(
   handleInputErrors,
   handleValidateUserExists,
   AuthController.sendTokenToResetPassword
+);
+
+authRoutes.post(
+  "/validate-reset-password-token",
+  body("token")
+    .notEmpty()
+    .withMessage("Token no válido")
+    .isLength({ min: 6, max: 6 })
+    .withMessage("Token no válido"),
+  handleInputErrors,
+  AuthController.validateResetPasswordToken
+);
+
+authRoutes.patch(
+  "/reset-password/:token",
+  body("password")
+    .notEmpty()
+    .withMessage("La contraseña es requerida")
+    .isLength({ min: 5 })
+    .withMessage("La contraseña debe tener mínimo 5 caracteres"),
+  param("token")
+    .notEmpty()
+    .withMessage("Token no válido")
+    .isLength({ min: 6, max: 6 })
+    .withMessage("Token no válido"),
+  handleInputErrors,
+  AuthController.resetPassword
 );
 
 authRoutes.get("/users", AuthController.getAll);
