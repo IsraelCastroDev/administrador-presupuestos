@@ -165,10 +165,26 @@ class AuthController {
   };
 
   static updateCurrentUserPassword = async (req: Request, res: Response) => {
-    const user = req.user!;
-    const { password } = req.body;
+    const { currentPassword, newPassword } = req.body;
 
-    const hashedPassword = await hashPassword(password);
+    const user = await User.findByPk(req.user!.id);
+
+    if (!user) {
+      res.status(401).json({ error: "No autorizado" });
+      return;
+    }
+
+    const isCorrectPassword = await checkPassword(
+      currentPassword,
+      user.password
+    );
+
+    if (!isCorrectPassword) {
+      res.status(401).json({ error: "La contraseña actual es incorrecta" });
+      return;
+    }
+
+    const hashedPassword = await hashPassword(newPassword);
 
     user.password = hashedPassword;
     await user.save();
