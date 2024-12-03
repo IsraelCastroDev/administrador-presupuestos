@@ -5,6 +5,7 @@ import {
   handleBudgetExists,
   handleValidateBudgetInput,
   handleValidateBudgetId,
+  handleHasAccess,
 } from "../middlewares/budget-middleware";
 import {
   handleValidateExpenseExists,
@@ -20,6 +21,7 @@ budgetRoutes.use(authenticate);
 // llamar al middleware automáticamente cuando se valida el parámetro 'budgetId'
 budgetRoutes.param("budgetId", handleValidateBudgetId);
 budgetRoutes.param("budgetId", handleBudgetExists);
+budgetRoutes.param("budgetId", handleHasAccess);
 
 // llamar al middleware automáticamente cuando se valida el parámetro 'expenseId'
 budgetRoutes.param("expenseId", handleValidateExpenseId);
