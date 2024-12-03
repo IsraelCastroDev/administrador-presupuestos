@@ -9,6 +9,7 @@ import {
 import { handleInputErrors } from "../middlewares/validation";
 import { body, param } from "express-validator";
 import { limiter } from "../config/limiter";
+import { authenticate } from "../middlewares/auth-middleware";
 
 const authRoutes = Router();
 
@@ -88,6 +89,8 @@ authRoutes.patch(
   handleInputErrors,
   AuthController.resetPassword
 );
+
+authRoutes.get("/user", authenticate, AuthController.user);
 
 authRoutes.get("/users", AuthController.getAll);
 
