@@ -192,7 +192,25 @@ class AuthController {
     res.status(200).json({ message: "Contraseña actualizada" });
   };
 
-  static getById = (req: Request, res: Response) => {};
+  static checkPassword = async (req: Request, res: Response) => {
+    const { password } = req.body;
+
+    const user = await User.findByPk(req.user!.id);
+
+    if (!user) {
+      res.status(401).json({ error: "No autorizado" });
+      return;
+    }
+
+    const isCorrectPassword = await checkPassword(password, user.password);
+
+    if (!isCorrectPassword) {
+      res.status(401).json({ error: "La contraseña actual es incorrecta" });
+      return;
+    }
+
+    res.status(200).json({ message: "Autorizado" });
+  };
 
   static updateById = (req: Request, res: Response) => {};
 
