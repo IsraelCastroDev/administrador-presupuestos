@@ -11,8 +11,11 @@ import {
   handleValidateExpenseId,
   handleValidateExpenseInput,
 } from "../middlewares/expense-middleware";
+import { authenticate } from "../middlewares/auth-middleware";
 
 const budgetRoutes = Router();
+
+budgetRoutes.use(authenticate);
 
 // llamar al middleware automáticamente cuando se valida el parámetro 'budgetId'
 budgetRoutes.param("budgetId", handleValidateBudgetId);
