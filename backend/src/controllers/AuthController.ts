@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
 import User from "../models/User";
-import { hashPassword } from "../utils";
-import { generateToken } from "../utils/token";
+import {
+  hashPassword,
+  generateToken,
+  checkPassword,
+  generateJWT,
+} from "../utils";
 import { AuthEmail } from "../service/AuthEmail";
-import { checkPassword } from "../utils/auth";
-import { generateJWT } from "../utils/jwt";
 
 class AuthController {
   static getAll = async (req: Request, res: Response) => {
@@ -154,6 +156,12 @@ class AuthController {
       console.log(error);
       res.status(500).json({ error: "Ocurrió un error al crear la cuenta" });
     }
+  };
+
+  static user = async (req: Request, res: Response) => {
+    const user = req.user!;
+
+    res.status(200).json(user);
   };
 
   static getById = (req: Request, res: Response) => {};
