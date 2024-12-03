@@ -164,6 +164,18 @@ class AuthController {
     res.status(200).json(user);
   };
 
+  static updateCurrentUserPassword = async (req: Request, res: Response) => {
+    const user = req.user!;
+    const { password } = req.body;
+
+    const hashedPassword = await hashPassword(password);
+
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({ message: "Contraseña actualizada" });
+  };
+
   static getById = (req: Request, res: Response) => {};
 
   static updateById = (req: Request, res: Response) => {};
