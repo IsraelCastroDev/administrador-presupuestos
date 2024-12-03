@@ -92,6 +92,19 @@ authRoutes.patch(
 
 authRoutes.get("/user", authenticate, AuthController.user);
 
+authRoutes.patch(
+  "/update-password",
+  authenticate,
+  body("currentPassword").notEmpty().withMessage("La contraseña es requerida"),
+  body("newPassword")
+    .notEmpty()
+    .withMessage("La contraseña es requerida")
+    .isLength({ min: 5 })
+    .withMessage("La contraseña debe tener mínimo 5 caracteres"),
+  handleInputErrors,
+  AuthController.updateCurrentUserPassword
+);
+
 authRoutes.get("/users", AuthController.getAll);
 
 export { authRoutes };
