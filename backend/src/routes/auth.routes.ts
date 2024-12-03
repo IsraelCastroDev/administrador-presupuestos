@@ -105,6 +105,13 @@ authRoutes.patch(
   AuthController.updateCurrentUserPassword
 );
 
+authRoutes.post(
+  "/check-password",
+  authenticate,
+  body("password").notEmpty().withMessage("La contraseña es requerida"),
+  AuthController.checkPassword
+);
+
 authRoutes.get("/users", AuthController.getAll);
 
 export { authRoutes };
