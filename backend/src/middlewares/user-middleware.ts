@@ -43,7 +43,7 @@ export const handleValidateUserAccountExists = async (
 
     if (user) {
       res
-        .status(404)
+        .status(409)
         .json({ error: "El email ya está registrado, inicia sesión" });
       return;
     }
