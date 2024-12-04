@@ -31,7 +31,7 @@ class AuthController {
 
       await AuthEmail.sendConfirmation({ email, name, token });
 
-      res.status(200).json({
+      res.status(201).json({
         message: "Cuenta creada, te enviamos un email de confirmación",
       });
     } catch (error) {
