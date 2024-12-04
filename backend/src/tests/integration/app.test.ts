@@ -83,3 +83,26 @@ describe("Authentication - create account", () => {
     expect(res.body.error).toBe("El email ya está registrado, inicia sesión");
   });
 });
+
+describe("Authentication - confirmation with token", () => {
+  it("should display error if token is empty or token is not valid", async () => {
+    const res = await request(server)
+      .post("/api/auth/confirm-account")
+      .send({ token: "22" });
+
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty("errors");
+    expect(res.body.errors).toHaveLength(1);
+    expect(res.body.errors[0].msg).toBe("Token no válido");
+  });
+
+  it("should display error if token is empty or token is not valid", async () => {
+    const res = await request(server)
+      .post("/api/auth/confirm-account")
+      .send({ token: "123456" });
+
+    expect(res.status).toBe(401);
+    expect(res.body).toHaveProperty("error");
+    expect(res.body.error).toBe("Token no válido");
+  });
+});
