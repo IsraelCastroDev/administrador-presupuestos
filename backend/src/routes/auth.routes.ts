@@ -28,11 +28,7 @@ authRoutes.post(
 
 authRoutes.post(
   "/confirm-account",
-  body("token")
-    .notEmpty()
-    .withMessage("Token no válido")
-    .isLength({ min: 6, max: 6 })
-    .withMessage("Token no válido"),
+  body("token").isLength({ min: 6, max: 6 }).withMessage("Token no válido"),
   handleInputErrors,
   AuthController.confirmAccount
 );
