@@ -35,11 +35,7 @@ authRoutes.post(
 
 authRoutes.post(
   "/login",
-  body("email")
-    .notEmpty()
-    .withMessage("Email es obligatorio")
-    .isEmail()
-    .withMessage("Email inválido"),
+  body("email").isEmail().withMessage("Email inválido"),
   body("password").notEmpty().withMessage("Contraseña es obligatoria"),
   handleInputErrors,
   handleValidateUserExists,
