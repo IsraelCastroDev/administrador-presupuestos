@@ -39,7 +39,7 @@ export const handleValidateUserAccountExists = async (
   try {
     const { email } = req.body;
 
-    const user = await User.findOne(email);
+    const user = await User.findOne({ where: { email } });
 
     if (user) {
       res
