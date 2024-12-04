@@ -15,7 +15,7 @@ class AuthController {
 
       res.status(200).json(users);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       res.status(500).json({ error: "Ocurrió un error al crear la cuenta" });
     }
   };
@@ -35,7 +35,7 @@ class AuthController {
         message: "Cuenta creada, te enviamos un email de confirmación",
       });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       res.status(500).json({ error: "Ocurrió un error al crear la cuenta" });
     }
   };
@@ -57,7 +57,7 @@ class AuthController {
 
       res.status(200).json({ message: "Cuenta confirmada con éxito" });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       res.status(500).json({ error: "Ocurrió un error al crear la cuenta" });
     }
   };
@@ -86,7 +86,7 @@ class AuthController {
 
       res.send(jwtToken);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       res.status(500).json({ error: "Ocurrió un error al crear la cuenta" });
     }
   };
@@ -110,7 +110,7 @@ class AuthController {
         .status(200)
         .json({ message: "Te enviamos el token, revisa tu correo" });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       res.status(500).json({ error: "Ocurrió un error al crear la cuenta" });
     }
   };
@@ -128,7 +128,7 @@ class AuthController {
 
       res.status(200).json({ message: "Token válido" });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       res.status(500).json({ error: "Ocurrió un error al crear la cuenta" });
     }
   };
@@ -153,7 +153,7 @@ class AuthController {
 
       res.status(200).json({ message: "Contraseña actualizada" });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       res.status(500).json({ error: "Ocurrió un error al crear la cuenta" });
     }
   };

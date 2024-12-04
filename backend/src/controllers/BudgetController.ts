@@ -12,7 +12,7 @@ export class BudgetController {
 
       res.json(budgets);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       res
         .status(500)
         .json({ error: "Ocurrió un error al obtener los presupuestos" });
@@ -21,13 +21,13 @@ export class BudgetController {
 
   static create = async (req: Request, res: Response) => {
     try {
-      const budget = new Budget(req.body);
+      const budget = await Budget.create(req.body);
       budget.userId = req.user!.id;
       await budget.save();
 
-      res.status(200).json({ message: "Presupuesto creado correctamente" });
+      res.status(201).json({ message: "Presupuesto creado correctamente" });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       res
         .status(500)
         .json({ error: "Ocurrió un error al crear el presupuesto" });

@@ -17,7 +17,7 @@ export class AuthEmail {
       <a href="#">Confirmar cuenta</a>`,
     });
 
-    console.log(email.messageId);
+    //console.log(email.messageId);
   };
 
   static sendRestartPasswordToken = async (user: EmailType) => {
@@ -30,6 +30,6 @@ export class AuthEmail {
       <a href="#">Reestablecer contraseña</a>`,
     });
 
-    console.log(email.messageId);
+    //console.log(email.messageId);
   };
 }

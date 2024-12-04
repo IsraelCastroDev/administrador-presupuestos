@@ -11,7 +11,7 @@ export class ExpenseController {
 
       res.status(200).json({ message: "Gasto creado correctamente" });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       res.status(500).json({ error: "Error al crear el gasto" });
     }
   };
@@ -28,7 +28,7 @@ export class ExpenseController {
 
       res.status(200).json(expenses);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       res.status(500).json({ error: "Error al obtener los gastos" });
     }
   };
@@ -55,7 +55,7 @@ export class ExpenseController {
 
       res.status(200).json({ message: "Gasto eliminado correctamente" });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       res.status(500).json({ error: "Error al obtener los gastos" });
     }
   };
