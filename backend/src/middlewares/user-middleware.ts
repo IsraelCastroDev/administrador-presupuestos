@@ -16,8 +16,6 @@ export const handleValidateUserInput = async (
     .withMessage("El nombre debe tener mínimo 3 caracteres")
     .run(req);
   await body("password")
-    .notEmpty()
-    .withMessage("La contraseña es requerida")
     .isLength({ min: 5 })
     .withMessage("La contraseña debe tener mínimo 5 caracteres")
     .run(req);
