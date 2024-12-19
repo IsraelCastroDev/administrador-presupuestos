@@ -29,6 +29,79 @@ budgetRoutes.param("expenseId", handleValidateExpenseExists);
 
 /*------------------ Endpoints para presupuestos ---------------------------*/
 budgetRoutes.get("/", BudgetController.getAll);
+
+/**
+ * @openapi
+ * /budgets:
+ *   post:
+ *     tags:
+ *       - budgets
+ *     summary: Crear un presupuesto
+ *     description: Crear un presupuesto
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 required: true
+ *               amount:
+ *                 type: number
+ *                 required: true
+ *     responses:
+ *       201:
+ *         description: Presupuesto creado correctamente
+ *         content:
+ *           application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *       400:
+ *         description: Error en el cuerpo de la solicitud
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 errors:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       type:
+ *                         type: string
+ *                       msg:
+ *                         type: string
+ *                       path:
+ *                         type: string
+ *                       location:
+ *                         type: string
+ *                   description: Lista de errores
+ *       401:
+ *         description: No autorizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *       500:
+ *         description: Error al crear el presupuesto
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *     security:
+ *       - bearerAuth: []
+ */
 budgetRoutes.post(
   "/",
   handleValidateBudgetInput,
@@ -36,6 +109,69 @@ budgetRoutes.post(
   BudgetController.create
 );
 
+/**
+ * @openapi
+ * /budgets/:budgetId:
+ *   get:
+ *     tags:
+ *       - budgets
+ *     summary: Obtener un presupuesto
+ *     description: Obtener un presupuesto por su id
+ *     parameters:
+ *       - in: path
+ *         name: budgetId
+ *         required: true
+ *         description: id de presupuesto
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Presupuesto encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               $ref: "#/components/schemas/budget"
+ *       400:
+ *         description: Error en el cuerpo de la solicitud
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 errors:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       type:
+ *                         type: string
+ *                       msg:
+ *                         type: string
+ *                       path:
+ *                         type: string
+ *                       location:
+ *                         type: string
+ *                   description: Lista de errores
+ *       401:
+ *         description: No autorizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *       404:
+ *         description: Presupuesto no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
 budgetRoutes.get("/:budgetId", BudgetController.getById);
 
 budgetRoutes.put(
